@@ -7,4 +7,6 @@
         <li><a href="{{url('contatos/'.$contato->id)}}">{{$contato->nome}}</a></li>
     @endforeach
     </ul>
+
+    <a class="btn btn-success" href="{{url('contatos/create')}}">Criar</a>
 @endsection
