@@ -19,6 +19,6 @@
     {{Form::text('estado','',['class'=>'form-control','required', 'placeholder'=>'Nome do Estado'])}}
     <br>
     {{Form::submit('Salvar',['class'=>'btn btn-success'])}}
-    {!!Form::button('Cancelar',['onclick'=>'JavaScript>:history.go(-1)','class'=>'btn btn-secondary'])!!}
+    {!!Form::button('Cancelar',['onclick'=>'javascript:history.go(-1)','class'=>'btn btn-secondary'])!!}
     {{Form::close()}}
 @endsection
