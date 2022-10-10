@@ -18,4 +18,6 @@ Route::get('/', function () {
     return redirect('contatos/');
 });
 
+Route::get('contatos/buscar',[ContatosController::class, 'buscar']);
+
 Route::resource('contatos',ContatosController::class);

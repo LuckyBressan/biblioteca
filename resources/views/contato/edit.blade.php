@@ -2,6 +2,18 @@
 @section('title','Alteração Contato - {{$contato->nome}}')
 @section('content')
     <h1>Alteração Contato - {{$contato->nome}}</h1>
+    @if(count($errors) > 0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>
+                    {{$error}}
+                </li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     @if(Session::has('mensagem'))
         <div class="alert alert-success">{{Session::get('mensagem')}}</div>
     @endif
@@ -9,19 +21,20 @@
 
     {{Form::open(['route'=>['contatos.update',$contato->id],'method'=>'PUT'])}}
         {{Form::label('nome','Nome')}}
-        {{Form::text('nome',$contato->nome,['class'=>'form-control','required', 'placeholder'=>'Nome Completo'])}}
+        {{Form::text('nome',$contato->nome,['class'=>'form-control', 'placeholder'=>'Nome Completo'])}}
         <br>
         {{Form::label('email','e-mail')}}
-        {{Form::text('email',$contato->email,['class'=>'form-control','required', 'placeholder'=>'E-mail'])}}
+        {{Form::email('email',$contato->email,['class'=>'form-control', 'placeholder'=>'E-mail', 'pattern'=>'[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?'])}}
         <br>
         {{Form::label('telefone','Telefone')}}
-        {{Form::number('telefone',$contato->telefone,['class'=>'form-control','required', 'placeholder'=>'(99) 9999-9999'])}}
+        {{Form::number('telefone',$contato->telefone,['class'=>'form-control', 'placeholder'=>'(99) 9999-9999', 'pattern'=>'(\([0-9]{2}\))\s([9]{1})?([0-9]{4,5})-([0-9]{4})',
+        'title'=>'Número de Telefone Precisa ser no formato(99) 9999-9999'])}}
         <br>
         {{Form::label('cidade','Cidade')}}
-        {{Form::text('cidade',$contato->cidade,['class'=>'form-control','required', 'placeholder'=>'Nome da Cidade'])}}
+        {{Form::text('cidade',$contato->cidade,['class'=>'form-control', 'placeholder'=>'Nome da Cidade'])}}
         <br>
         {{Form::label('estado','estado')}}
-        {{Form::text('estado',$contato->estado,['class'=>'form-control','required', 'placeholder'=>'Nome do Estado'])}}
+        {{Form::text('estado',$contato->estado,['class'=>'form-control', 'placeholder'=>'Nome do Estado'])}}
         <br>
         {{Form::submit('Salvar',['class'=>'btn btn-success'])}}
         {!!Form::button('Cancelar',['onclick'=>'javascript:history.go(-1)','class'=>'btn btn-secondary'])!!}

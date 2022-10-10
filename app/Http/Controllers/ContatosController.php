@@ -21,10 +21,11 @@ class ContatosController extends Controller
     }
 
     public function buscar(Request $request) {
-        $contato = Contato::where('nome','LIKE', '%', $request->input('busca'), '%')->orwhere('email', 'LIKE', '%', $request->input('busca'), '%')->
-        orwhere('cidade','LIKE', '%', $request->input('busca'), '%')->orwhere('estado','LIKE', '%', $request->input('busca'), '%')->get();
-        return view('contato.index', array('contatos'=>$contatos, 'busca'=>request->input('busca')));
-    }
+        $contato = Contato::where('nome','LIKE', '%'.
+        $request->input('busca'). '%')->orwhere('email', 'LIKE', '%'.
+        $request->input('busca'). '%')->get();
+        return view('contato.index', array('contatos'=>$contato, 'busca'=>$request->input('busca')));
+    }  
 
     /**
      * Show the form for creating a new resource.
@@ -44,6 +45,14 @@ class ContatosController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'nome'=>'required',
+            'email'=>'required|email',
+            'telefone'=>'required',
+            'cidade'=>'required',
+            'estado'=>'required',
+        ]);
+
         $contato = new Contato();
         $contato->nome = $request->input('nome');
         $contato->email = $request->input('email');
@@ -88,6 +97,14 @@ class ContatosController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'nome'=>'required',
+            'email'=>'required|email',
+            'telefone'=>'required',
+            'cidade'=>'required',
+            'estado'=>'required',
+        ]);
+
         $contato = Contato::find($id);
         $contato->nome = $request->input('nome');
         $contato->email = $request->input('email');
