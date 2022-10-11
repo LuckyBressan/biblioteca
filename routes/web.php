@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContatosController;
+use App\Http\Controllers\LivrosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,14 @@ use App\Http\Controllers\ContatosController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/livros', function () {
+    return redirect('livros/');
+});
+Route::get('livros/buscar',[LivrosController::class, 'buscar']);
+
+Route::resource('livros',LivrosController::class);
+
+
 
 Route::get('/', function () {
     return redirect('contatos/');
@@ -21,3 +30,6 @@ Route::get('/', function () {
 Route::get('contatos/buscar',[ContatosController::class, 'buscar']);
 
 Route::resource('contatos',ContatosController::class);
+
+
+
