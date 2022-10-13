@@ -13,9 +13,9 @@
     </div>
     <div class="card-footer">
         {{Form::open(['route'=>['contatos.destroy',$contato->id],'method'=>'DELETE'])}}
-        <a href="{{url('contatos/'.$contato->id.'/edit')}}" class="btn btn-success">Alterar</a>
-        {{Form::submit('Excluir',['class'=>'btn btn-danger', 'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
-        <a href="{{url('contatos/')}}" class="btn btn-primary">Voltar</a>
+        <a href="{{url('contatos/'.$contato->id.'/edit')}}" class="btn btn-secondary">Alterar</a>
+        {{Form::submit('Excluir',['class'=>'btn btn-dark', 'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
+        <a href="{{url('contatos/')}}" class="btn btn-light">Voltar</a>
         {{Form::close()}}
     </div>
 @endsection

@@ -19,6 +19,13 @@ class LivrosController extends Controller
         return view('livro.index',array('livros'=>$livros, 'busca'=>null));
     }
 
+    public function buscar(Request $request) {
+        $livro = Livro::where('titulo','LIKE', '%'.
+        $request->input('busca'). '%')->orwhere('editora', 'LIKE', '%'.
+        $request->input('busca'). '%')->get();
+        return view('livro.index', array('livros'=>$livro, 'busca'=>$request->input('busca')));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -37,7 +44,22 @@ class LivrosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'titulo'=>'required',
+            'descricao'=>'required',
+            'autor'=>'required',
+            'editora'=>'required',
+            'ano'=>'required',
+        ]);
+        $livro = new Livro();
+        $livro->titulo = $request->input('titulo');
+        $livro->descricao = $request->input('descricao');
+        $livro->autor = $request->input('autor');
+        $livro->editora = $request->input('editora');
+        $livro->ano = $request->input('ano');
+        if($livro->save()) {
+            return redirect('livros');
+        }
     }
 
     /**
@@ -60,7 +82,8 @@ class LivrosController extends Controller
      */
     public function edit($id)
     {
-        //
+        $livro = Livro::find($id);
+        return view('livro.edit',array('livro'=>$livro));
     }
 
     /**
@@ -72,7 +95,23 @@ class LivrosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'titulo'=>'required',
+            'descricao'=>'required',
+            'autor'=>'required',
+            'editora'=>'required',
+            'ano'=>'required',
+        ]);
+        $livro = Livro::find($id);
+        $livro->titulo = $request->input('titulo');
+        $livro->descricao = $request->input('descricao');
+        $livro->autor = $request->input('autor');
+        $livro->editora = $request->input('editora');
+        $livro->ano = $request->input('ano');
+        if($livro->save()) {
+            Session::flash('mensagem','Livro Alterado com Sucesso');
+            return redirect(url('livros/'));
+        }
     }
 
     /**
@@ -83,6 +122,9 @@ class LivrosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $livro = Livro::find($id);
+        $livro->delete();
+        Session::flash('mensagem','Livro Excluído com Sucesso');
+        return redirect(url('livros/'));
     }
 }

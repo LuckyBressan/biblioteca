@@ -1,7 +1,11 @@
 @extends('layout.app')
 @section('title','Listagem de Contatos')
 @section('content')
-    <h1>Listagem de Contatos</h1>
+    @section('page')
+        <h3>Listagem de Contatos</h3>
+    @endsection
+    <br><br>
+
     @if(Session::has('mensagem'))
         <div class="alert alert-info">{{Session::get('mensagem')}}</div>
     @endif
