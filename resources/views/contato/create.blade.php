@@ -1,7 +1,10 @@
 @extends('layout.app')
 @section('title','Criar novo contato')
 @section('content')
-    <h1>Criar novo Contato</h1>
+    @section('page')
+        <h3>Criar novo Contato</h3>
+    @endsection
+    <br><br>
     @if(count($errors) > 0)
         <div class="alert alert-danger">
             <ul>
@@ -14,7 +17,7 @@
         </div>
     @endif
 
-    {{Form::open(['route'=>'contatos.store','method'=>'POST'])}}
+    {{Form::open(['route'=>'contatos.store','method'=>'POST', 'enctype'=>'multipart/form-data'])}}
         {{Form::label('nome','Nome')}}
         {{Form::text('nome','',['class'=>'form-control','required', 'placeholder'=>'Nome Completo'])}}
         <br>
@@ -30,6 +33,9 @@
         <br>
         {{Form::label('estado','estado')}}
         {{Form::text('estado','',['class'=>'form-control','required', 'placeholder'=>'Nome do Estado'])}}
+        <br>
+        {{Form::label('foto','Foto')}}
+        {{Form::file('foto',['class'=>'form-control', 'id'=>'Foto'])}}
         <br>
         {{Form::submit('Salvar',['class'=>'btn btn-secondary'])}}
         {!!Form::button('Cancelar',['onclick'=>'javascript:history.go(-1)','class'=>'btn btn-dark'])!!}

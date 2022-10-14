@@ -18,4 +18,4 @@
         <a href="{{url('contatos/')}}" class="btn btn-light">Voltar</a>
         {{Form::close()}}
     </div>
-@endsection
+@endsection 

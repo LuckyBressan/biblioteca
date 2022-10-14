@@ -17,7 +17,7 @@
         </div>
     @endif
     <br><br>
-    {{Form::open(['route'=>'livros.store','method'=>'POST'])}}
+    {{Form::open(['route'=>'livros.store','method'=>'POST', 'enctype'=>'multipart/form-data'])}}
         {{Form::label('titulo','Titulo')}}
         {{Form::text('titulo','',['class'=>'form-control','required', 'placeholder'=>'Titulo do Livro'])}}
         <br>
@@ -32,6 +32,9 @@
         <br>
         {{Form::label('ano','Ano')}}
         {{Form::number('ano','',['class'=>'form-control','required', 'placeholder'=>'Ano de lançamento'])}}
+        <br>
+        {{Form::label('foto','Foto')}}
+        {{Form::file('foto',['class'=>'form-control', 'id'=>'Foto'])}}
         <br>
         {{Form::submit('Salvar',['class'=>'btn btn-secondary'])}}
         {!!Form::button('Cancelar',['onclick'=>'javascript:history.go(-1)','class'=>'btn btn-dark'])!!}

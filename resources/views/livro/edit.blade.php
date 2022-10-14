@@ -20,7 +20,7 @@
         <div class="alert alert-success">{{Session::get('mensagem')}}</div>
     @endif
 
-    {{Form::open(['route'=>['livros.update',$livro->id],'method'=>'PUT'])}}
+    {{Form::open(['route'=>['livros.update',$livro->id],'method'=>'PUT', 'enctype'=>'multipart/form-data'])}}
         {{Form::label('titulo','Titulo')}}
         {{Form::text('titulo',$livro->titulo,['class'=>'form-control','required', 'placeholder'=>'Titulo do Livro'])}}
         <br>
@@ -35,6 +35,9 @@
         <br>
         {{Form::label('ano','Ano')}}
         {{Form::number('ano',$livro->ano,['class'=>'form-control','required', 'placeholder'=>'Ano de lançamento'])}}
+        <br>
+        {{Form::label('foto','Foto')}}
+        {{Form::file('foto',['class'=>'form-control', 'id'=>'Foto'])}}
         <br>
         {{Form::submit('Salvar',['class'=>'btn btn-secondary'])}}
         {!!Form::button('Cancelar',['onclick'=>'javascript:history.go(-1)','class'=>'btn btn-dark'])!!}

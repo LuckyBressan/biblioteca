@@ -1,7 +1,10 @@
 @extends('layout.app')
 @section('title','Alteração Contato - {{$contato->nome}}')
 @section('content')
-    <h1>Alteração Contato - {{$contato->nome}}</h1>
+    @section('page')
+        <h3>Alteração Contato</h3>
+    @endsection
+    <br>
     @if(count($errors) > 0)
         <div class="alert alert-danger">
             <ul>
@@ -18,8 +21,9 @@
         <div class="alert alert-success">{{Session::get('mensagem')}}</div>
     @endif
     <br>
+    
 
-    {{Form::open(['route'=>['contatos.update',$contato->id],'method'=>'PUT'])}}
+    {{Form::open(['route'=>['contatos.update',$contato->id],'method'=>'PUT', 'enctype'=>'multipart/form-data'])}}
         {{Form::label('nome','Nome')}}
         {{Form::text('nome',$contato->nome,['class'=>'form-control', 'placeholder'=>'Nome Completo'])}}
         <br>
@@ -36,7 +40,10 @@
         {{Form::label('estado','estado')}}
         {{Form::text('estado',$contato->estado,['class'=>'form-control', 'placeholder'=>'Nome do Estado'])}}
         <br>
-        {{Form::submit('Salvar',['class'=>'btn btn-success'])}}
-        {!!Form::button('Cancelar',['onclick'=>'javascript:history.go(-1)','class'=>'btn btn-secondary'])!!}
+        {{Form::label('foto','Foto')}}
+        {{Form::file('foto',['class'=>'form-control', 'id'=>'Foto'])}}
+        <br>
+        {{Form::submit('Salvar',['class'=>'btn btn-secondary'])}}
+        {!!Form::button('Cancelar',['onclick'=>'javascript:history.go(-1)','class'=>'btn btn-dark'])!!}
     {{Form::close()}}
 @endsection
