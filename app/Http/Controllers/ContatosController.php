@@ -15,7 +15,7 @@ class ContatosController extends Controller
      */
     public function index()
     {
-        $contatos = Contato::all();
+        $contatos = Contato::paginate(5);
         return view('contato.index',array('contatos'=>$contatos, 'busca'=>null));
 
     }
@@ -23,7 +23,7 @@ class ContatosController extends Controller
     public function buscar(Request $request) {
         $contato = Contato::where('nome','LIKE', '%'.
         $request->input('busca'). '%')->orwhere('email', 'LIKE', '%'.
-        $request->input('busca'). '%')->get();
+        $request->input('busca'). '%')->paginate(5);
         return view('contato.index', array('contatos'=>$contato, 'busca'=>$request->input('busca')));
     }  
 
@@ -60,6 +60,11 @@ class ContatosController extends Controller
         $contato->cidade = $request->input('cidade');
         $contato->estado = $request->input('estado');
         if($contato->save()) {
+            if($request->hasFile('foto')){
+                $imagem = $request->file('foto');
+                $nomearquivo = md5($contato->id).'.'.$imagem->getClientOriginalExtension();
+                $request->file('foto')->move(public_path('.\img\contato'),$nomearquivo);
+            }
             return redirect('contatos');
         }
     }
@@ -105,7 +110,12 @@ class ContatosController extends Controller
             'estado'=>'required',
         ]);
 
-        $contato = Contato::find($id);
+        $contato = Contato::find($id); 
+        if($request->hasFile('foto')){
+            $imagem = $request->file('foto');
+            $nomearquivo = md5($contato->id).'.'.$imagem->getClientOriginalExtension();
+            $request->file('foto')->move(public_path('.\img\contato'),$nomearquivo);
+        }
         $contato->nome = $request->input('nome');
         $contato->email = $request->input('email');
         $contato->telefone = $request->input('telefone');
@@ -126,6 +136,9 @@ class ContatosController extends Controller
     public function destroy($id)
     {
         $contato = Contato::find($id);
+        if(isset($request->foto)){
+            unlink($request->foto);
+        }
         $contato->delete();
         Session::flash('mensagem','Contato Excluído com Sucesso');
         return redirect(url('contatos/'));

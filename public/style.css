@@ -51,3 +51,34 @@
     color: white;
     text-transform: uppercase;
 }
+
+
+.corpo-info-contato {
+    width: 600px;
+    height: 800px;
+    position: absolute;
+    left: 35%;
+    top: 10%;
+}
+.info-contato {
+    position: absolute;
+    width: 90%;
+    top: 250px;
+    left: 30px;
+    
+}
+
+/*imagem do conntato*/
+
+.img-contato {
+    position: absolute;
+    left: 200px;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    background-color: black;
+    overflow: hidden;
+}
+.img-user {
+    width: 100%;
+}

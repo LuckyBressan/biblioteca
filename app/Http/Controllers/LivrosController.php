@@ -15,14 +15,15 @@ class LivrosController extends Controller
      */
     public function index()
     {
-        $livros = Livro::all();
+        $livros = Livro::simplepaginate(5);
         return view('livro.index',array('livros'=>$livros, 'busca'=>null));
     }
 
     public function buscar(Request $request) {
         $livro = Livro::where('titulo','LIKE', '%'.
         $request->input('busca'). '%')->orwhere('editora', 'LIKE', '%'.
-        $request->input('busca'). '%')->get();
+        $request->input('busca'). '%')->orwhere('autor', 'LIKE', '%'.
+        $request->input('busca'). '%')->simplepaginate(5);
         return view('livro.index', array('livros'=>$livro, 'busca'=>$request->input('busca')));
     }
 
@@ -58,6 +59,11 @@ class LivrosController extends Controller
         $livro->editora = $request->input('editora');
         $livro->ano = $request->input('ano');
         if($livro->save()) {
+            if($request->hasFile('foto')){
+                $imagem = $request->file('foto');
+                $nomearquivo = md5($livro->id).'.'.$imagem->getClientOriginalExtension();
+                $request->file('foto')->move(public_path('.\img\livro'),$nomearquivo);
+            }
             return redirect('livros');
         }
     }
@@ -103,6 +109,11 @@ class LivrosController extends Controller
             'ano'=>'required',
         ]);
         $livro = Livro::find($id);
+        if($request->hasFile('foto')){
+            $imagem = $request->file('foto');
+            $nomearquivo = md5($livro->id).'.'.$imagem->getClientOriginalExtension();
+            $request->file('foto')->move(public_path('.\img\livro'),$nomearquivo);
+        }
         $livro->titulo = $request->input('titulo');
         $livro->descricao = $request->input('descricao');
         $livro->autor = $request->input('autor');
@@ -123,6 +134,9 @@ class LivrosController extends Controller
     public function destroy($id)
     {
         $livro = Livro::find($id);
+        if(isset($request->foto)){
+            unlink($request->foto);
+        }
         $livro->delete();
         Session::flash('mensagem','Livro Excluído com Sucesso');
         return redirect(url('livros/'));

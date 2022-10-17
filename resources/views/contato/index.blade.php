@@ -35,5 +35,5 @@
     </tr>
     @endforeach
     </table>
-   
+    {{$contatos->links()}}
 @endsection
