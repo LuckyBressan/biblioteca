@@ -1,8 +1,8 @@
 @extends('layout.app')
 @extends('layout.menu')
-@section('title','Contato - {{$contato->nome}}')
+@section('title','Livro - {{$livro->titulo}}')
 @section('content')
-    <div class="corpo-info-contato border shadow p-3 mb-5 bg-body rounded">
+<div class="corpo-info-contato border shadow p-3 mb-5 bg-body rounded">
         <div class="img-contato">
              @php
                 $nomeimagem = "";
@@ -48,4 +48,4 @@
             {{Form::close()}}
         </div>
     </div>
-@endsection 
+@endsection

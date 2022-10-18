@@ -1,4 +1,5 @@
 @extends('layout.app')
+@extends('layout.menu')
 @section('title','Listagem de Livros')
 @section('content')
     @section('create')
@@ -13,11 +14,11 @@
     {{Form::open(['url'=>'livros/buscar', 'method'=>'GET'])}}
         <div class="input-group ml-5">
             @if($busca!==null)
-            &nbsp;<a href="{{url('livros/')}}" class="btn btn-info">Todos</a>&nbsp;
+            &nbsp;<a href="{{url('livros/')}}" class="btn"  style="background-color: #e5989b; color: white; border: 1px solid #e5989b;">Todos</a>&nbsp;
             @endif
             {{Form::text('busca',$busca,['class'=>'form-control', 'required', 'placeholder'=>'buscar'])}} &nbsp;
             <span class="input-group-btn">
-                {{Form::submit('Buscar',['class'=>'btn btn-secondary'])}}
+                {{Form::submit('Buscar',['class'=>'btn', 'style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;'])}}
             </span>
             
         </div>
@@ -44,17 +45,17 @@
             $nomeimagem = "./img/livro/livrosemfoto.jpg";
         }
     @endphp
-    <div class="card mb-3" style="max-width: 540px;">
+    <div class="card mb-3" style="max-width: 540px; border: 1px solid #b5838d">
         <div class="row g-0">
             <div class="col-md-4">
             {{Html::image(asset($nomeimagem),'Foto de '.$livro->titulo,['class'=>'img-fluid rounded-start'])}}
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title">{{$livro->titulo}}</h5>
-                    <p class="card-text"><b>Autor:</b> {{$livro->autor}} <br> <b>Lançamento:</b> {{$livro->ano}}</p>
-                    <p class="card-text"><small class="text-muted">Última atualização 3 minutos atrás</small></p>
-                    <a href="{{url('livros/'.$livro->id)}}" class="btn btn-dark">Mais Informações</a>
+                    <h5 class="card-title" style="color:#b5838d;">{{$livro->titulo}}</h5>
+                    <p class="card-text" style="color:#e5989b;"><b>Autor:</b> {{$livro->autor}} <br> <b>Lançamento:</b> {{$livro->ano}}</p>
+                    <p class="card-text" ><small style="color:#e5989b;">Última atualização 3 minutos atrás</small></p>
+                    <a href="{{url('livros/'.$livro->id)}}" class="btn" style="background-color: #b5838d; color: white; border: 1px solid #b5838d;">Mais Informações</a>
                 </div>
             </div>
         </div>

@@ -1,4 +1,5 @@
 @extends('layout.app')
+@extends('layout.menu')
 @section('title','Alteração Contato - {{$contato->nome}}')
 @section('content')
     @section('page')

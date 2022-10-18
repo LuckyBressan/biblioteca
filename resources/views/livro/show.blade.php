@@ -1,7 +1,8 @@
 @extends('layout.app')
+@extends('layout.menu')
 @section('title','Livro - {{$livro->titulo}}')
 @section('content')
-    <div class="corpo-produto">
+    <div class="corpo-livro">
         <div>
             @php
                 $nomeimagem = "";
@@ -19,13 +20,13 @@
                     $nomeimagem = "./img/livro/livrosemfoto.jpg";
                 }
             @endphp
-            {{Html::image(asset($nomeimagem),'Foto de '.$livro->titulo,['class'=>'border rounded img-produto'])}}
+            {{Html::image(asset($nomeimagem),'Foto de '.$livro->titulo,['class'=>'border rounded img-livro'])}}
         </div><br>
         
-        <div class="titulo-produto border shadow-sm p-3 mb-5 bg-body rounded">
+        <div class="titulo-livro border shadow-sm p-3 mb-5 bg-body rounded">
             <h3><td>{{$livro->titulo}}</td></h3>
         </div>
-        <div class="informacoes-produto border shadow p-3 mb-5 bg-body rounded">
+        <div class="informacoes-livro border shadow p-3 mb-5 bg-body rounded">
             <p>{{$livro->descricao}}</p>
         </div><br>
         <div class="">
@@ -42,9 +43,9 @@
         @if ($nomeimagem !== "./img/livro/livrosemfoto.jpg")
                 {{Form::hidden('foto',$nomeimagem)}}
         @endif
-        <a href="{{url('livros/'.$livro->id.'/edit')}}" class="btn btn-secondary botao"><br>Alterar</a>
-        {{Form::submit('Excluir',['class'=>'btn btn-dark botao', 'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
-        <a href="{{url('livros/')}}" class="btn btn-light botao"><br>Voltar</a>
+        <a href="{{url('livros/'.$livro->id.'/edit')}}" class="btn botao" style="background-color: #e5989b; color: white; border: 1px solid #e5989b;"><br>Alterar</a>
+        {{Form::submit('Excluir',['class'=>'btn botao','style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;' ,'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
+        <a href="{{url('livros/')}}" class="btn botao" style="background-color: #FCD5CE; color: white; border: 1px solid #FCD5CE;"><br>Voltar</a>
         {{Form::close()}}
     </div>
 @endsection

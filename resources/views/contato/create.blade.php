@@ -1,4 +1,5 @@
 @extends('layout.app')
+@extends('layout.menu')
 @section('title','Criar novo contato')
 @section('content')
     @section('page')

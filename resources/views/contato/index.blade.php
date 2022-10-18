@@ -1,4 +1,5 @@
 @extends('layout.app')
+@extends('layout.menu')
 @section('title','Listagem de Contatos')
 @section('content')
     @section('page')
@@ -31,7 +32,7 @@
     <table class="table table-striped">
     @foreach($contatos as $contato)
     <tr>
-        <td><a href="{{url('contatos/'.$contato->id)}}">{{$contato->nome}}</a></td>
+        <td><a href="{{url('contatos/'.$contato->id)}}" class="link link-dark">{{$contato->nome}}</a></td>
     </tr>
     @endforeach
     </table>
