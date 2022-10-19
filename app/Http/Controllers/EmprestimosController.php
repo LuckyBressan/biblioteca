@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contato;
+use App\Models\Livro;
 use App\Models\Emprestimo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class EmprestimosController extends Controller
 {
@@ -21,8 +24,8 @@ class EmprestimosController extends Controller
     public function buscar(Request $request) {
         $emprestimo = Emprestimo::where('id_contato','=',
         $request->input('busca'))->orwhere('id_livro', '=',
-        $request->input('busca'))->orwhere('DataHora','=',
-        $request->input('busca'))->simplepaginate(5);
+        $request->input('busca'))->orwhere('DataHora','LIKE', '%',
+        $request->input('busca').'%')->simplepaginate(5);
         return view('emprestimo.index', array('emprestimos'=>$emprestimo, 'busca'=>$request->input('busca')));
     }  
 
@@ -34,7 +37,9 @@ class EmprestimosController extends Controller
      */
     public function create()
     {
-        return view('emprestimo.create');
+        $contatos = Contato::all();
+        $livros = Livro::all();
+        return view('emprestimo.create', array('contatos'=>$contatos, 'livros'=>$livros));
     }
 
     /**
@@ -53,9 +58,13 @@ class EmprestimosController extends Controller
         $emprestimo = new Emprestimo();
         $emprestimo->id_contato = $request->input('id_contato');
         $emprestimo->id_livro = $request->input('id_livro');
-        $emprestimo->DataHora = \Carbon\Carbon::createFromFormat('d/m/Y H:i:s'),$request->input('DataHora');
-        $emprs
-
+        $emprestimo->DataHora = \Carbon\Carbon::createFromFormat('d/m/Y H:i:s',$request->input('DataHora'));
+        $emprestimo->obs = $request->input('obs');
+        $emprestimo->DataDevolucao = null;
+        
+        if($emprestimo->save()) {
+            return redirect('emprestimos');
+        }
     }
 
     /**
@@ -67,7 +76,7 @@ class EmprestimosController extends Controller
     public function show(Emprestimo $emprestimo)
     {
         $emprestimo = Emprestimo::find($id);
-        return view('emprestimo.show',array('emprestimo'=>$emprestimo));
+        return view('emprestimo.show',array('emprestimos'=>$emprestimo, 'busca'=>null));
     }
 
     /**

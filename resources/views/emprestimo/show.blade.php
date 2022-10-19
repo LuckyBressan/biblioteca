@@ -1,44 +1,28 @@
 @extends('layout.app')
 @extends('layout.menu')
-@section('title','Livro - {{$livro->titulo}}')
+@section('title','Empréstimo - {{$emprestimo->id}}')
 @section('content')
 <div class="corpo-info-contato border shadow p-3 mb-5 bg-body rounded">
         <div class="img-contato">
-             @php
-                $nomeimagem = "";
-                if(file_exists("./img/contato/".md5($contato->id).".jpg")){
-                    $nomeimagem = "./img/contato/".md5($contato->id).".jpg";
-                } elseif (file_exists("./img/contato/".md5($contato->id).".png")) {
-                    $nomeimagem = "./img/contato/".md5($contato->id).".png";
-                } elseif (file_exists("./img/contato/".md5($contato->id).".gif")) {
-                    $nomeimagem = "./img/contato/".md5($contato->id).".gif";
-                } elseif (file_exists("./img/contato/".md5($contato->id).".webp")) {
-                    $nomeimagem = "./img/contato/".md5($contato->id).".webp";
-                } elseif (file_exists("./img/contato/".md5($contato->id).".jpeg")) {
-                    $nomeimagem = "./img/contato/".md5($contato->id).".jpeg";
-                } else {
-                    $nomeimagem = "./img/contato/usuario.png";
-                }
-            @endphp
-            {{Html::image(asset($nomeimagem),'Foto de '.$contato->titulo,['class'=>'img-user'])}}
+             
         </div><br><br>
         <div class="info-contato">
-            <h1 class="text-center" style="text-transform:uppercase;">{{$contato->nome}}</h1><br><br>
+            <h1 class="text-center" style="text-transform:uppercase;">{{$emprestimo->id}}</h1><br><br>
             <div class="mb-3">
-                <label for="email" class="form-label">E-mail:</label>
-                <input type="text" class="form-control" name="email" id='email' value="{{$contato->email}}" readonly>
+                <label for="contato" class="form-label">Contato:</label>
+                <input type="text" class="form-control" name="contato" id='contato' value="{{$emprestimo->contato->nome}}" readonly>
             </div>
             <div class="mb-3">
-                <label for="telefone" class="form-label">Telefone:</label>
-                <input type="number" class="form-control" name="telefone" id='telefone' value="{{$contato->telefone}}" readonly>
+                <label for="livro" class="form-label">Livro:</label>
+                <input type="text" class="form-control" name="livro" id='livro' value="{{$emprestimo->livro->titulo}}" readonly>
             </div>
             <div class="mb-3">
-                <label for="cidade" class="form-label">Cidade:</label>
-                <input type="text" class="form-control" name="cidade" id='cidade' value="{{$contato->cidade}}" readonly>
+                <label for="dataRetirada" class="form-label">Data da Retirada:</label>
+                <input type="text" class="form-control" name="dataRetirada" id='dataRetirada' value="{{\Carbon\Carbon::$emprestimo->id_contato->format('d/m/Y H:i:s')}}" readonly>
             </div>
             <div class="mb-3">
-                <label for="estado" class="form-label">Estado:</label>
-                <input type="text" class="form-control" name="estado" id='estado' value="{{$contato->estado}}" readonly>
+                <label for="obs" class="form-label">Observação:</label>
+                <input type="text" class="form-control" name="obs" id='obs' value="{{$emprestimo->obs}}" readonly>
             </div><br>
             
             {{Form::open(['route'=>['contatos.destroy',$contato->id],'method'=>'DELETE'])}}

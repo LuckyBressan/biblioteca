@@ -1,13 +1,13 @@
 @extends('layout.app')
 @extends('layout.menu')
-@section('title','Listagem de Livros')
+@section('title','Listagem de Empréstimos')
 @section('content')
     @section('create')
         <a class="nav-link" href="{{url('emprestimos/create')}}">Criar</a>
     @endsection
 
     @section('page')
-        <h3>Listagem de Livros</h3>
+        <h3>Listagem de Empréstimos</h3>
     @endsection
     <br><br>
 
@@ -27,15 +27,17 @@
 <br><br>
 
 
-<div class="row">
+<table class="table table-striped">
     @foreach($emprestimos as $emprestimo)
     <tr>
         <td><a href="{{url('emprestimos/'.$emprestimo->id)}}" class="link link-dark">{{$emprestimo->id}}</a></td>
-        <td>{{$emprestimo->id_contato}}</td>
-        <td>{{$emprestimo->id_livro}}</td>
+        <td>{{$emprestimo->id_contato}} - {{$emprestimo->contato->nome}}</td>
+
+        <td>{{$emprestimo->id_livro}} - {{$emprestimo->livro->titulo}}</td>
+        
         <td>{{$emprestimo->DataHora}}</td>
     </tr>
     @endforeach
     {{$emprestimos->links()}}
-</div>
+</table>
 @endsection

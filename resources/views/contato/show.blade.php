@@ -23,7 +23,7 @@
             {{Html::image(asset($nomeimagem),'Foto de '.$contato->titulo,['class'=>'img-user'])}}
         </div><br><br>
         <div class="info-contato">
-            <h1 class="text-center" style="text-transform:uppercase;">{{$contato->nome}}</h1><br><br>
+            <h1 class="text-center" style="text-transform:uppercase; color: #b5838d;">{{$contato->nome}}</h1><br><br>
             <div class="mb-3">
                 <label for="email" class="form-label">E-mail:</label>
                 <input type="text" class="form-control" name="email" id='email' value="{{$contato->email}}" readonly>
@@ -42,9 +42,9 @@
             </div><br>
             
             {{Form::open(['route'=>['contatos.destroy',$contato->id],'method'=>'DELETE'])}}
-            <a href="{{url('contatos/'.$contato->id.'/edit')}}" class="btn btn-secondary">Alterar</a>
-            {{Form::submit('Excluir',['class'=>'btn btn-dark', 'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
-            <a href="{{url('contatos/')}}" class="btn btn-light">Voltar</a>
+            <a href="{{url('contatos/'.$contato->id.'/edit')}}" class="btn" style="background-color: #e5989b; color: white; border: 1px solid #e5989b;">Alterar</a>
+            {{Form::submit('Excluir',['class'=>'btn btn-dark', 'style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;',  'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
+            <a href="{{url('contatos/')}}" class="btn" style="background-color: #FCD5CE; color: white; border: 1px solid #FCD5CE;">Voltar</a>
             {{Form::close()}}
         </div>
     </div>
