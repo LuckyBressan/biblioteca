@@ -45,7 +45,7 @@
             $nomeimagem = "./img/livro/livrosemfoto.jpg";
         }
     @endphp
-    <div class="card mb-3" style="max-width: 540px; border: 1px solid #b5838d">
+    <div class="card mb-3" style="max-width: 640px; border: 1px solid #b5838d">
         <div class="row g-0">
             <div class="col-md-4">
             {{Html::image(asset($nomeimagem),'Foto de '.$livro->titulo,['class'=>'img-fluid rounded-start'])}}
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-    </div> &nbsp; 
+    </div> &nbsp; &nbsp;
     @endforeach
     {{$livros->links()}}
 </div>

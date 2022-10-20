@@ -15,7 +15,7 @@ class LivrosController extends Controller
      */
     public function index()
     {
-        $livros = Livro::simplepaginate(5);
+        $livros = Livro::simplepaginate(6);
         return view('livro.index',array('livros'=>$livros, 'busca'=>null));
     }
 
@@ -23,7 +23,7 @@ class LivrosController extends Controller
         $livro = Livro::where('titulo','LIKE', '%'.
         $request->input('busca'). '%')->orwhere('editora', 'LIKE', '%'.
         $request->input('busca'). '%')->orwhere('autor', 'LIKE', '%'.
-        $request->input('busca'). '%')->simplepaginate(5);
+        $request->input('busca'). '%')->simplepaginate(6);
         return view('livro.index', array('livros'=>$livro, 'busca'=>$request->input('busca')));
     }
 

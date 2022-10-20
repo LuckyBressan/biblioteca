@@ -1,3 +1,4 @@
+/*SHOW LIVROS*/
 .corpo-livro {
     position: relative;
 }
@@ -56,6 +57,8 @@
 }
 
 
+
+/*SHOW CONTATOS*/
 .corpo-info-contato {
     width: 600px;
     height: 800px;
@@ -71,7 +74,7 @@
     
 }
 
-/*imagem do conntato*/
+/*imagem do contato*/
 
 .img-contato {
     position: absolute;
@@ -84,4 +87,29 @@
 }
 .img-user {
     width: 100%;
+}
+
+
+/*IMAGEM EMPRESTIMO*/
+.img-contato-emprestimo {
+    position: absolute;
+    left: 85px;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    background-color: black;
+    overflow: hidden;
+}
+.corpo-livro {
+    position: relative;
+}
+
+.img-livro-emprestimo {
+    position: absolute;
+    left: 340px;
+    top: 2.5%;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 150px;
+    height: 200px;
 }

@@ -133,7 +133,7 @@ class ContatosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $contato = Contato::find($id);
         if(isset($request->foto)){

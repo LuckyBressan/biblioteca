@@ -7,6 +7,7 @@ use App\Models\Livro;
 use App\Models\Emprestimo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Session;
 
 class EmprestimosController extends Controller
 {
@@ -73,10 +74,10 @@ class EmprestimosController extends Controller
      * @param  \App\Models\Emprestimo  $emprestimo
      * @return \Illuminate\Http\Response
      */
-    public function show(Emprestimo $emprestimo)
+    public function show($id)
     {
         $emprestimo = Emprestimo::find($id);
-        return view('emprestimo.show',array('emprestimos'=>$emprestimo, 'busca'=>null));
+        return view('emprestimo.show',array('emprestimo'=>$emprestimo, 'busca'=>null));
     }
 
     /**
@@ -105,11 +106,15 @@ class EmprestimosController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Emprestimo  $emprestimo
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Emprestimo $emprestimo)
+    public function destroy($id)
     {
-        //
+        $emprestimo = Emprestimo::find($id);
+
+        $emprestimo->delete();
+        Session::flash('mensagem', 'Empréstimo Excluido com Sucesso');
+        return redirect(url('emprestimos/'));
     }
 }

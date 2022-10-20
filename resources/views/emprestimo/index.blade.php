@@ -27,17 +27,30 @@
 <br><br>
 
 
-<table class="table table-striped">
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>CONTATO</th>
+            <th>LIVRO</th>
+            <th>DATA EMPRÉSTIMO</th>
+            <th>DATA DEVOLUÇÃO</th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
     @foreach($emprestimos as $emprestimo)
-    <tr>
-        <td><a href="{{url('emprestimos/'.$emprestimo->id)}}" class="link link-dark">{{$emprestimo->id}}</a></td>
-        <td>{{$emprestimo->id_contato}} - {{$emprestimo->contato->nome}}</td>
+        <tr>
+            <th><a href="{{url('emprestimos/'.$emprestimo->id)}}" class="link link-dark">{{$emprestimo->id}}</a></th>
+            <td>{{$emprestimo->id_contato}} - {{$emprestimo->contato->nome}}</td>
 
-        <td>{{$emprestimo->id_livro}} - {{$emprestimo->livro->titulo}}</td>
-        
-        <td>{{$emprestimo->DataHora}}</td>
-    </tr>
+            <td>{{$emprestimo->id_livro}} - {{$emprestimo->livro->titulo}}</td>
+            
+            <td>{{\Carbon\Carbon::create($emprestimo->DataHora)->format('d/m/Y H:i:s')}}</td>
+
+            <td>{!!$emprestimo->devolvido!!}</td>
+        </tr>
     @endforeach
+    </tbody>
     {{$emprestimos->links()}}
 </table>
 @endsection
