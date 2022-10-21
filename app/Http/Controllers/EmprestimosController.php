@@ -23,12 +23,16 @@ class EmprestimosController extends Controller
     }
 
     public function buscar(Request $request) {
-        $emprestimo = Emprestimo::where('id_contato','=',
-        $request->input('busca'))->orwhere('id_livro', '=',
-        $request->input('busca'))->orwhere('DataHora','LIKE', '%',
-        $request->input('busca').'%')->simplepaginate(5);
-        return view('emprestimo.index', array('emprestimos'=>$emprestimo, 'busca'=>$request->input('busca')));
-    }  
+        $emprestimo = Emprestimo::join('contatos','contatos.id','=','emprestimos.id_contato')
+                    ->join('livros','livros.id','=','emprestimos.id_livro')
+                    ->select('emprestimos.*','contatos.nome','livros.titulo')
+                    ->where('id_contato','=',$request->input('busca'))
+                    ->orwhere('id_livro','=',$request->input('busca'))
+                    ->orwhere('obs','LIKE','%'.$request->input('busca').'%')->orwhere('contatos.nome','LIKE','%'.$request->input('busca').'%')
+                    ->orwhere('livros.titulo','LIKE','%'.$request->input('busca').'%')
+                    ->simplepaginate(5);
+        return view('emprestimo.index',array('emprestimos' => $emprestimo,'busca'=>$request->input('busca')));
+    }
 
 
     /**
@@ -89,6 +93,24 @@ class EmprestimosController extends Controller
     public function edit(Emprestimo $emprestimo)
     {
         
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+    *  @return \Illuminate\Http\Response
+     */
+    public function devolver(Request $request, $id)
+    {
+        $emprestimo = Emprestimo::find($id);
+        $emprestimo->DataDevolucao = \Carbon\Carbon::now();
+        $emprestimo->save();
+
+        if($emprestimo->save()) {
+            Session::flash('mensagem','Empréstimo Devolvido');
+            return redirect('emprestimos');
+        }
     }
 
     /**

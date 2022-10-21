@@ -63,7 +63,7 @@
     width: 600px;
     height: 800px;
     position: absolute;
-    left: 35%;
+    left: 15%;
     top: 10%;
 }
 .info-contato {
@@ -112,4 +112,37 @@
     border-radius: 5px;
     width: 150px;
     height: 200px;
+}
+
+.info-emprestimo {
+    position: absolute;
+    width: 90%;
+    top: 230px;
+    left: 30px;
+
+}
+
+.botao-devolucao {
+    position: absolute;
+    left: 225px;
+    bottom: 0px;
+}
+
+table.table tr{
+    cursor: pointer;
+}
+
+#emprestimo-contato {
+    width: 800px;
+    position: absolute;
+    right: 150px;
+    top: 300px;
+}
+
+.corpo-info-contato-emprestimo {
+    width: 600px;
+    height: 800px;
+    position: absolute;
+    left: 35%;
+    top: 10%;
 }

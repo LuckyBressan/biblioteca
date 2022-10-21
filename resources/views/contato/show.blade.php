@@ -43,9 +43,35 @@
             
             {{Form::open(['route'=>['contatos.destroy',$contato->id],'method'=>'DELETE'])}}
             <a href="{{url('contatos/'.$contato->id.'/edit')}}" class="btn" style="background-color: #e5989b; color: white; border: 1px solid #e5989b;">Alterar</a>
-            {{Form::submit('Excluir',['class'=>'btn btn-dark', 'style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;',  'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
+            {{Form::submit('Excluir',['class'=>'btn', 'style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;',  'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
             <a href="{{url('contatos/')}}" class="btn" style="background-color: #FCD5CE; color: white; border: 1px solid #FCD5CE;">Voltar</a>
             {{Form::close()}}
         </div>
     </div>
+
+    <table class="table table-hover" id="emprestimo-contato">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>LIVRO</th>
+                <th>DATA EMPRÉSTIMO</th>
+                <th>DATA DEVOLUÇÃO</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        @foreach ($contato->emprestimos as $emprestimo)
+        
+            <tr onclick="location.href='{{url('emprestimos/'.$emprestimo->id)}}'">
+                <th>{{$emprestimo->id}}</th>
+
+                <td>{{$emprestimo->id_livro}} - {{$emprestimo->livro->titulo}}</td>
+                
+                <td>{{\Carbon\Carbon::create($emprestimo->DataHora)->format('d/m/Y H:i:s')}}</td>
+
+                <td>{!!$emprestimo->devolvido!!}</td>
+                
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
 @endsection 

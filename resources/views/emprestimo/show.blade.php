@@ -2,7 +2,7 @@
 @extends('layout.menu')
 @section('title','Empréstimo - {{$emprestimo->id}}')
 @section('content')
-<div class="corpo-info-contato border shadow p-3 mb-5 bg-body rounded">
+<div class="corpo-info-contato-emprestimo border shadow p-3 mb-5 bg-body rounded">
         <div class="img-contato-emprestimo">
         @php
                 $nomeimagem = "";
@@ -41,10 +41,8 @@
             @endphp
             {{Html::image(asset($nomeimagem),'Foto de '.$emprestimo->livro->nome,['class'=>'border rounded img-livro-emprestimo'])}}
         </div>
-        
-        <br><br>
-        <div class="info-contato">
-            <h1 class="text-center" style="text-transform:uppercase;">ID: {{$emprestimo->id}}</h1><br><br>
+        <div class="info-emprestimo">
+            <h1 class="text-center" style="text-transform:uppercase;">ID: {{$emprestimo->id}}</h1><br>
             <div class="mb-3">
                 <label for="contato" class="form-label">Contato:</label>
                 <input type="text" class="form-control" name="contato" id='contato' value="{{$emprestimo->contato->nome}}" readonly>
@@ -64,15 +62,19 @@
             <div class="mb-3">
                 <label for="obs" class="form-label">Observação:</label>
                 <input type="text" class="form-control" name="obs" id='obs' value="{{$emprestimo->obs}}" readonly>
-            </div><br>
-            
-            {{Form}}
-
-            {{Form::open(['route'=>['emprestimos.destroy',$emprestimo->id],'method'=>'DELETE'])}}
-            <a href="{{url('emprestimos/'.$emprestimo->id.'/edit')}}" class="btn btn-secondary">Alterar</a>
-            {{Form::submit('Excluir',['class'=>'btn btn-dark', 'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
-            <a href="{{url('emprestimos/')}}" class="btn btn-light">Voltar</a>
-            {{Form::close()}}
+            </div>
+            @if($emprestimo->DataDevolucao == null)
+                <div class="botao-devolucao">
+                    {{Form::open(['route'=>['emprestimos.devolver',$emprestimo->id],'method'=>'PUT'])}}
+                    {{form::submit('Devolver',['class'=>'btn', 'style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;','onclick'=>'return confim("Confirma devolução?")'])}}
+                    {{Form::close()}}
+                </div>
+            @endif
+                {{Form::open(['route'=>['emprestimos.destroy',$emprestimo->id],'method'=>'DELETE'])}}
+                <a href="{{url('emprestimos/'.$emprestimo->id.'/edit')}}" class="btn" style="background-color: #e5989b; color: white; border: 1px solid #e5989b;">Alterar</a>
+                {{Form::submit('Excluir',['class'=>'btn', 'style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;', 'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
+                <a href="{{url('emprestimos/')}}" class="btn" style="background-color: #FCD5CE; color: white; border: 1px solid #FCD5CE;">Voltar</a>
+                {{Form::close()}}
         </div>
     </div>
 @endsection

@@ -31,8 +31,8 @@
     <br><br>
     <table class="table table-striped">
     @foreach($contatos as $contato)
-    <tr>
-        <td><a href="{{url('contatos/'.$contato->id)}}" class="link link-dark">{{$contato->nome}}</a></td>
+    <tr onclick="location.href='{{url('contatos/'.$contato->id)}}'">
+        <td>{{$contato->nome}}</td>
     </tr>
     @endforeach
     </table>

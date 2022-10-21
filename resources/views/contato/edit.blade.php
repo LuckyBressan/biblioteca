@@ -44,7 +44,7 @@
         {{Form::label('foto','Foto')}}
         {{Form::file('foto',['class'=>'form-control', 'id'=>'Foto'])}}
         <br>
-        {{Form::submit('Salvar',['class'=>'btn btn-secondary'])}}
-        {!!Form::button('Cancelar',['onclick'=>'javascript:history.go(-1)','class'=>'btn btn-dark'])!!}
+        {{Form::submit('Salvar',['class'=>'btn', 'style'=>'background-color: #e5989b; color: white; border: 1px solid #e5989b;'])}}
+        {!!Form::button('Cancelar',['onclick'=>'javascript:history.go(-1)','class'=>'btn', 'class'=>'btn','style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;'])!!}
     {{Form::close()}}
 @endsection

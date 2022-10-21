@@ -11,7 +11,7 @@
     @endsection
     <br><br>
 
-    {{Form::open(['url'=>'emprestimo/buscar', 'method'=>'GET'])}}
+    {{Form::open(['url'=>'emprestimos/buscar', 'method'=>'GET'])}}
         <div class="input-group ml-5">
             @if($busca!==null)
             &nbsp;<a href="{{url('emprestimos/')}}" class="btn"  style="background-color: #e5989b; color: white; border: 1px solid #e5989b;">Todos</a>&nbsp;
@@ -39,8 +39,8 @@
     </thead>
     <tbody class="table-group-divider">
     @foreach($emprestimos as $emprestimo)
-        <tr>
-            <th><a href="{{url('emprestimos/'.$emprestimo->id)}}" class="link link-dark">{{$emprestimo->id}}</a></th>
+        <tr onclick="location.href='{{url('emprestimos/'.$emprestimo->id)}}'">
+            <th>{{$emprestimo->id}}</th>
             <td>{{$emprestimo->id_contato}} - {{$emprestimo->contato->nome}}</td>
 
             <td>{{$emprestimo->id_livro}} - {{$emprestimo->livro->titulo}}</td>
@@ -48,6 +48,7 @@
             <td>{{\Carbon\Carbon::create($emprestimo->DataHora)->format('d/m/Y H:i:s')}}</td>
 
             <td>{!!$emprestimo->devolvido!!}</td>
+            
         </tr>
     @endforeach
     </tbody>

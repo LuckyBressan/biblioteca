@@ -39,7 +39,7 @@
         {{Form::text('DataHora',\Carbon\Carbon::now()->format('d/m/Y H:i:s'),['class'=>'form-control','required', 'placeholder'=>'Informe a data...', 'rows'=>8])}}
         <br>
         {{Form::label('obs','Observação')}}
-        {{Form::textarea('obs','',['class'=>'form-control','required', 'placeholder'=>'Observação...'])}}
+        {{Form::textarea('obs','',['class'=>'form-control', 'placeholder'=>'Observação...'])}}
         <br>
         {{Form::submit('Salvar',['class'=>'btn', 'style'=>'background-color: #e5989b; color: white; border: 1px solid #e5989b;'])}}
         {!!Form::button('Cancelar',['onclick'=>'javascript:history.go(-1)','class'=>'btn', 'style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;'])!!}
