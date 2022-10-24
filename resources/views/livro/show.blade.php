@@ -1,5 +1,4 @@
-@extends('layout.app')
-@extends('layout.menu')
+@extends('layouts.app')
 @section('title','Livro - {{$livro->titulo}}')
 @section('content')
     <div class="corpo-livro">
@@ -39,13 +38,17 @@
         
     </div>
     <div class="botoes-show">
-        {{Form::open(['route'=>['livros.destroy',$livro->id],'method'=>'DELETE'])}}
-        @if ($nomeimagem !== "./img/livro/livrosemfoto.jpg")
-                {{Form::hidden('foto',$nomeimagem)}}
-        @endif
-        <a href="{{url('livros/'.$livro->id.'/edit')}}" class="btn botao" style="background-color: #e5989b; color: white; border: 1px solid #e5989b;"><br>Alterar</a>
-        {{Form::submit('Excluir',['class'=>'btn botao','style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;' ,'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
+        @auth
+            {{Form::open(['route'=>['livros.destroy',$livro->id],'method'=>'DELETE'])}}
+            @if ($nomeimagem !== "./img/livro/livrosemfoto.jpg")
+                    {{Form::hidden('foto',$nomeimagem)}}
+            @endif
+            <a href="{{url('livros/'.$livro->id.'/edit')}}" class="btn botao" style="background-color: #e5989b; color: white; border: 1px solid #e5989b;"><br>Alterar</a>
+            {{Form::submit('Excluir',['class'=>'btn botao','style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;' ,'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
+        @endauth
         <a href="{{url('livros/')}}" class="btn botao" style="background-color: #FCD5CE; color: white; border: 1px solid #FCD5CE;"><br>Voltar</a>
-        {{Form::close()}}
+        @auth
+            {{Form::close()}}
+        @endauth
     </div>
 @endsection

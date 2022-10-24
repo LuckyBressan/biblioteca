@@ -1,5 +1,4 @@
-@extends('layout.app')
-@extends('layout.menu')
+@extends('layouts.app')
 @section('title','Listagem de Empréstimos')
 @section('content')
     @section('create')

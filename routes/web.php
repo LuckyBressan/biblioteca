@@ -15,27 +15,18 @@ use App\Http\Controllers\EmprestimosController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/livros', function () {
-    return redirect('livros/');
-});
-Route::get('livros/buscar',[LivrosController::class, 'buscar']);
 
+Route::get('livros/buscar',[LivrosController::class, 'buscar']);
 Route::resource('livros',LivrosController::class);
 
 
 
-Route::get('/', function () {
-    return redirect('contatos/');
-});
+
 
 Route::get('contatos/buscar',[ContatosController::class, 'buscar']);
-
 Route::resource('contatos',ContatosController::class);
 
 
-Route::get('/emprestimos', function () {
-    return redirect('emprestimos/');
-});
 
 Route::get('emprestimos/buscar',[EmprestimosController::class, 'buscar']);
 Route::put('emprestimos/{emprestimo}/devolver',[EmprestimosController::class,'devolver'])->name('emprestimos.devolver');
@@ -43,3 +34,7 @@ Route::resource('emprestimos',EmprestimosController::class);
 
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

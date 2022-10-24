@@ -1,5 +1,4 @@
-@extends('layout.app')
-@extends('layout.menu')
+@extends('layouts.app')
 @section('title','Contato - {{$contato->nome}}')
 @section('content')
     <div class="corpo-info-contato border shadow p-3 mb-5 bg-body rounded">
@@ -41,11 +40,15 @@
                 <input type="text" class="form-control" name="estado" id='estado' value="{{$contato->estado}}" readonly>
             </div><br>
             
-            {{Form::open(['route'=>['contatos.destroy',$contato->id],'method'=>'DELETE'])}}
-            <a href="{{url('contatos/'.$contato->id.'/edit')}}" class="btn" style="background-color: #e5989b; color: white; border: 1px solid #e5989b;">Alterar</a>
-            {{Form::submit('Excluir',['class'=>'btn', 'style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;',  'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
+            @auth
+                {{Form::open(['route'=>['contatos.destroy',$contato->id],'method'=>'DELETE'])}}
+                <a href="{{url('contatos/'.$contato->id.'/edit')}}" class="btn" style="background-color: #e5989b; color: white; border: 1px solid #e5989b;">Alterar</a>
+                {{Form::submit('Excluir',['class'=>'btn', 'style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;',  'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
+            @endauth
             <a href="{{url('contatos/')}}" class="btn" style="background-color: #FCD5CE; color: white; border: 1px solid #FCD5CE;">Voltar</a>
-            {{Form::close()}}
+            @auth
+                {{Form::close()}}
+            @endauth
         </div>
     </div>
 

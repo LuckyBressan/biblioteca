@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Contato;
 use Illuminate\Http\Request;
 use Session;
@@ -34,7 +35,12 @@ class ContatosController extends Controller
      */
     public function create()
     {
-        return view('contato.create');
+        if (Auth::check()) {
+            return view('contato.create');
+        }
+        else {
+            return redirect('login');
+        }
     }
 
     /**
@@ -45,28 +51,33 @@ class ContatosController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'nome'=>'required',
-            'email'=>'required|email',
-            'telefone'=>'required',
-            'cidade'=>'required',
-            'estado'=>'required',
-        ]);
+        if(Auth::check()) {
+            $this->validate($request,[
+                'nome'=>'required',
+                'email'=>'required|email',
+                'telefone'=>'required',
+                'cidade'=>'required',
+                'estado'=>'required',
+            ]);
 
-        $contato = new Contato();
-        $contato->nome = $request->input('nome');
-        $contato->email = $request->input('email');
-        $contato->telefone = $request->input('telefone');
-        $contato->cidade = $request->input('cidade');
-        $contato->estado = $request->input('estado');
-        if($contato->save()) {
-            if($request->hasFile('foto')){
-                $imagem = $request->file('foto');
-                $nomearquivo = md5($contato->id).'.'.$imagem->getClientOriginalExtension();
-                $request->file('foto')->move(public_path('.\img\contato'),$nomearquivo);
-            }
-            return redirect('contatos');
+            $contato = new Contato();
+            $contato->nome = $request->input('nome');
+            $contato->email = $request->input('email');
+            $contato->telefone = $request->input('telefone');
+            $contato->cidade = $request->input('cidade');
+            $contato->estado = $request->input('estado');
+            if($contato->save()) {
+                if($request->hasFile('foto')){
+                    $imagem = $request->file('foto');
+                    $nomearquivo = md5($contato->id).'.'.$imagem->getClientOriginalExtension();
+                    $request->file('foto')->move(public_path('.\img\contato'),$nomearquivo);
+                }
+                return redirect('contatos');
+            }    
+        } else {
+            return redirect('login');
         }
+
     }
 
     /**
