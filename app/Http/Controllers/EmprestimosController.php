@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Contato;
 use App\Models\Livro;
 use App\Models\Emprestimo;
@@ -42,9 +43,13 @@ class EmprestimosController extends Controller
      */
     public function create()
     {
-        $contatos = Contato::all();
-        $livros = Livro::all();
-        return view('emprestimo.create', array('contatos'=>$contatos, 'livros'=>$livros));
+        if(Auth::check()) { 
+            $contatos = Contato::all();
+            $livros = Livro::all();
+            return view('emprestimo.create', array('contatos'=>$contatos, 'livros'=>$livros));
+        } else {
+            return redirect('login');
+        }
     }
 
     /**
@@ -55,20 +60,24 @@ class EmprestimosController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'id_contato'=>'required',
-            'id_livro'=>'required',
-            'DataHora'=>'required',
-        ]);
-        $emprestimo = new Emprestimo();
-        $emprestimo->id_contato = $request->input('id_contato');
-        $emprestimo->id_livro = $request->input('id_livro');
-        $emprestimo->DataHora = \Carbon\Carbon::createFromFormat('d/m/Y H:i:s',$request->input('DataHora'));
-        $emprestimo->obs = $request->input('obs');
-        $emprestimo->DataDevolucao = null;
-        
-        if($emprestimo->save()) {
-            return redirect('emprestimos');
+        if(Auth::check()) {
+            $this->validate($request,[
+                'id_contato'=>'required',
+                'id_livro'=>'required',
+                'DataHora'=>'required',
+            ]);
+            $emprestimo = new Emprestimo();
+            $emprestimo->id_contato = $request->input('id_contato');
+            $emprestimo->id_livro = $request->input('id_livro');
+            $emprestimo->DataHora = \Carbon\Carbon::createFromFormat('d/m/Y H:i:s',$request->input('DataHora'));
+            $emprestimo->obs = $request->input('obs');
+            $emprestimo->DataDevolucao = null;
+            
+            if($emprestimo->save()) {
+                return redirect('emprestimos');
+            }
+        } else {
+            return redirect('login');
         }
     }
 
@@ -103,13 +112,17 @@ class EmprestimosController extends Controller
      */
     public function devolver(Request $request, $id)
     {
-        $emprestimo = Emprestimo::find($id);
-        $emprestimo->DataDevolucao = \Carbon\Carbon::now();
-        $emprestimo->save();
+        if(Auth::check()) {
+            $emprestimo = Emprestimo::find($id);
+            $emprestimo->DataDevolucao = \Carbon\Carbon::now();
+            $emprestimo->save();
 
-        if($emprestimo->save()) {
-            Session::flash('mensagem','Empréstimo Devolvido');
-            return redirect('emprestimos');
+            if($emprestimo->save()) {
+                Session::flash('mensagem','Empréstimo Devolvido');
+                return redirect('emprestimos');
+            }
+        } else {
+            return redirect('login');
         }
     }
 
@@ -133,10 +146,13 @@ class EmprestimosController extends Controller
      */
     public function destroy($id)
     {
-        $emprestimo = Emprestimo::find($id);
-
-        $emprestimo->delete();
-        Session::flash('mensagem', 'Empréstimo Excluido com Sucesso');
-        return redirect(url('emprestimos/'));
+        if(Auth::check()) {
+            $emprestimo = Emprestimo::find($id);
+            $emprestimo->delete();
+            Session::flash('mensagem', 'Empréstimo Excluido com Sucesso');
+            return redirect(url('emprestimos/'));
+        } else {
+            return redirect('login');
+        }
     }
 }

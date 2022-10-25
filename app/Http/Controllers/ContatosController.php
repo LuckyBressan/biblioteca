@@ -35,7 +35,7 @@ class ContatosController extends Controller
      */
     public function create()
     {
-        if (Auth::check()) {
+        if ((Auth::check()) && (Auth::user()->isAdmin())) {
             return view('contato.create');
         }
         else {
@@ -100,8 +100,12 @@ class ContatosController extends Controller
      */
     public function edit($id)
     {
-        $contato = Contato::find($id);
-        return view('contato.edit',array('contato'=>$contato));
+        if(Auth::check()) {
+            $contato = Contato::find($id);
+            return view('contato.edit',array('contato'=>$contato));
+        } else {
+            return redirect('login');
+        }
     }
 
     /**
@@ -113,28 +117,32 @@ class ContatosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
-            'nome'=>'required',
-            'email'=>'required|email',
-            'telefone'=>'required',
-            'cidade'=>'required',
-            'estado'=>'required',
-        ]);
+        if (Auth::check()) {
+            $this->validate($request,[
+                'nome'=>'required',
+                'email'=>'required|email',
+                'telefone'=>'required',
+                'cidade'=>'required',
+                'estado'=>'required',
+            ]);
 
-        $contato = Contato::find($id); 
-        if($request->hasFile('foto')){
-            $imagem = $request->file('foto');
-            $nomearquivo = md5($contato->id).'.'.$imagem->getClientOriginalExtension();
-            $request->file('foto')->move(public_path('.\img\contato'),$nomearquivo);
-        }
-        $contato->nome = $request->input('nome');
-        $contato->email = $request->input('email');
-        $contato->telefone = $request->input('telefone');
-        $contato->cidade = $request->input('cidade');
-        $contato->estado = $request->input('estado');
-        if($contato->save()) {
-            Session::flash('mensagem','Contato Alterado com Sucesso');
-            return redirect(url('contatos/'));
+            $contato = Contato::find($id); 
+            if($request->hasFile('foto')){
+                $imagem = $request->file('foto');
+                $nomearquivo = md5($contato->id).'.'.$imagem->getClientOriginalExtension();
+                $request->file('foto')->move(public_path('.\img\contato'),$nomearquivo);
+            }
+            $contato->nome = $request->input('nome');
+            $contato->email = $request->input('email');
+            $contato->telefone = $request->input('telefone');
+            $contato->cidade = $request->input('cidade');
+            $contato->estado = $request->input('estado');
+            if($contato->save()) {
+                Session::flash('mensagem','Contato Alterado com Sucesso');
+                return redirect(url('contatos/'));
+            }
+        } else {
+            return redirect('login');
         }
     }
 
@@ -146,12 +154,16 @@ class ContatosController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $contato = Contato::find($id);
-        if(isset($request->foto)){
-            unlink($request->foto);
+        if(Auth::check()) {
+            $contato = Contato::find($id);
+            if(isset($request->foto)){
+                unlink($request->foto);
+            }
+            $contato->delete();
+            Session::flash('mensagem','Contato Excluído com Sucesso');
+            return redirect(url('contatos/'));
+        } else {
+            return redirect('login');
         }
-        $contato->delete();
-        Session::flash('mensagem','Contato Excluído com Sucesso');
-        return redirect(url('contatos/'));
     }
 }

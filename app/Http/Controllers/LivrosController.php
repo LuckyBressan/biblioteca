@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Livro;
 use Illuminate\Http\Request;
 use Session;
@@ -34,7 +35,11 @@ class LivrosController extends Controller
      */
     public function create()
     {
-        return view('livro.create');
+        if(Auth::check()) {
+            return view('livro.create');
+        } else {
+            return redirect('login');
+        }
     }
 
     /**
@@ -45,27 +50,32 @@ class LivrosController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'titulo'=>'required',
-            'descricao'=>'required',
-            'autor'=>'required',
-            'editora'=>'required',
-            'ano'=>'required',
-        ]);
-        $livro = new Livro();
-        $livro->titulo = $request->input('titulo');
-        $livro->descricao = $request->input('descricao');
-        $livro->autor = $request->input('autor');
-        $livro->editora = $request->input('editora');
-        $livro->ano = $request->input('ano');
-        if($livro->save()) {
-            if($request->hasFile('foto')){
-                $imagem = $request->file('foto');
-                $nomearquivo = md5($livro->id).'.'.$imagem->getClientOriginalExtension();
-                $request->file('foto')->move(public_path('.\img\livro'),$nomearquivo);
+        if(Auth::check()) {
+            $this->validate($request,[
+                'titulo'=>'required',
+                'descricao'=>'required',
+                'autor'=>'required',
+                'editora'=>'required',
+                'ano'=>'required',
+            ]);
+            $livro = new Livro();
+            $livro->titulo = $request->input('titulo');
+            $livro->descricao = $request->input('descricao');
+            $livro->autor = $request->input('autor');
+            $livro->editora = $request->input('editora');
+            $livro->ano = $request->input('ano');
+            if($livro->save()) {
+                if($request->hasFile('foto')){
+                    $imagem = $request->file('foto');
+                    $nomearquivo = md5($livro->id).'.'.$imagem->getClientOriginalExtension();
+                    $request->file('foto')->move(public_path('.\img\livro'),$nomearquivo);
+                }
+                return redirect('livros');
             }
-            return redirect('livros');
+        } else {
+            return redirect('login');
         }
+
     }
 
     /**
@@ -88,8 +98,12 @@ class LivrosController extends Controller
      */
     public function edit($id)
     {
-        $livro = Livro::find($id);
-        return view('livro.edit',array('livro'=>$livro));
+        if(Auth::check()) {
+            $livro = Livro::find($id);
+            return view('livro.edit',array('livro'=>$livro));
+        } else {
+            return redirect('login');
+        }
     }
 
     /**
@@ -101,27 +115,31 @@ class LivrosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
-            'titulo'=>'required',
-            'descricao'=>'required',
-            'autor'=>'required',
-            'editora'=>'required',
-            'ano'=>'required',
-        ]);
-        $livro = Livro::find($id);
-        if($request->hasFile('foto')){
-            $imagem = $request->file('foto');
-            $nomearquivo = md5($livro->id).'.'.$imagem->getClientOriginalExtension();
-            $request->file('foto')->move(public_path('.\img\livro'),$nomearquivo);
-        }
-        $livro->titulo = $request->input('titulo');
-        $livro->descricao = $request->input('descricao');
-        $livro->autor = $request->input('autor');
-        $livro->editora = $request->input('editora');
-        $livro->ano = $request->input('ano');
-        if($livro->save()) {
-            Session::flash('mensagem','Livro Alterado com Sucesso');
-            return redirect(url('livros/'));
+        if(Auth::check()) {
+            $this->validate($request,[
+                'titulo'=>'required',
+                'descricao'=>'required',
+                'autor'=>'required',
+                'editora'=>'required',
+                'ano'=>'required',
+            ]);
+            $livro = Livro::find($id);
+            if($request->hasFile('foto')){
+                $imagem = $request->file('foto');
+                $nomearquivo = md5($livro->id).'.'.$imagem->getClientOriginalExtension();
+                $request->file('foto')->move(public_path('.\img\livro'),$nomearquivo);
+            }
+            $livro->titulo = $request->input('titulo');
+            $livro->descricao = $request->input('descricao');
+            $livro->autor = $request->input('autor');
+            $livro->editora = $request->input('editora');
+            $livro->ano = $request->input('ano');
+            if($livro->save()) {
+                Session::flash('mensagem','Livro Alterado com Sucesso');
+                return redirect(url('livros/'));
+            }
+        } else {
+            return redirect('login');
         }
     }
 
@@ -131,14 +149,18 @@ class LivrosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $livro = Livro::find($id);
-        if(isset($request->foto)){
-            unlink($request->foto);
+        if(Auth::check()) {
+            $livro = Livro::find($id);
+            if(isset($request->foto)){
+                unlink($request->foto);
+            }
+            $livro->delete();
+            Session::flash('mensagem','Livro Excluído com Sucesso');
+            return redirect(url('livros/'));
+        } else {
+            return redirect('login');
         }
-        $livro->delete();
-        Session::flash('mensagem','Livro Excluído com Sucesso');
-        return redirect(url('livros/'));
     }
 }

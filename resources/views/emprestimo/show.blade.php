@@ -62,7 +62,7 @@
                 <label for="obs" class="form-label">Observação:</label>
                 <input type="text" class="form-control" name="obs" id='obs' value="{{$emprestimo->obs}}" readonly>
             </div>
-            @auth
+            @if ((Auth::check()) && (Auth::user()->isAdmin()))
                 @if($emprestimo->DataDevolucao == null)
                     <div class="botao-devolucao">
                         {{Form::open(['route'=>['emprestimos.devolver',$emprestimo->id],'method'=>'PUT'])}}
@@ -73,11 +73,11 @@
             
                 {{Form::open(['route'=>['emprestimos.destroy',$emprestimo->id],'method'=>'DELETE'])}}
                 {{Form::submit('Excluir',['class'=>'btn', 'style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;', 'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
-            @endauth
+            @endif
                 <a href="{{url('emprestimos/')}}" class="btn" style="background-color: #FCD5CE; color: white; border: 1px solid #FCD5CE;">Voltar</a>
-            @auth
+            @if ((Auth::check()) && (Auth::user()->isAdmin()))
                 {{Form::close()}}
-            @endauth
+            @endif
         </div>
     </div>
 @endsection

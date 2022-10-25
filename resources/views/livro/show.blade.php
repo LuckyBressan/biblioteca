@@ -38,17 +38,17 @@
         
     </div>
     <div class="botoes-show">
-        @auth
+        @if ((Auth::check()) && (Auth::user()->isAdmin()))
             {{Form::open(['route'=>['livros.destroy',$livro->id],'method'=>'DELETE'])}}
             @if ($nomeimagem !== "./img/livro/livrosemfoto.jpg")
                     {{Form::hidden('foto',$nomeimagem)}}
             @endif
             <a href="{{url('livros/'.$livro->id.'/edit')}}" class="btn botao" style="background-color: #e5989b; color: white; border: 1px solid #e5989b;"><br>Alterar</a>
             {{Form::submit('Excluir',['class'=>'btn botao','style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;' ,'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
-        @endauth
+        @endif
         <a href="{{url('livros/')}}" class="btn botao" style="background-color: #FCD5CE; color: white; border: 1px solid #FCD5CE;"><br>Voltar</a>
-        @auth
+        @if ((Auth::check()) && (Auth::user()->isAdmin()))
             {{Form::close()}}
-        @endauth
+        @endif
     </div>
 @endsection

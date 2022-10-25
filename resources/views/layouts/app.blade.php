@@ -41,11 +41,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('emprestimos') }}" >Empréstimos</a>
                         </li>
-                        @auth
+                        @if ((Auth::check()) && (Auth::user()->isAdmin()))
                             <li class="nav-item">
                                 @yield('create')
                             </li>
-                        @endauth
+                        @endif
                        
                     </ul>
 

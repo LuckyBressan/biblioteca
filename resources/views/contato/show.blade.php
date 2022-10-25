@@ -40,15 +40,15 @@
                 <input type="text" class="form-control" name="estado" id='estado' value="{{$contato->estado}}" readonly>
             </div><br>
             
-            @auth
+            @if ((Auth::check()) && (Auth::user()->isAdmin()))
                 {{Form::open(['route'=>['contatos.destroy',$contato->id],'method'=>'DELETE'])}}
                 <a href="{{url('contatos/'.$contato->id.'/edit')}}" class="btn" style="background-color: #e5989b; color: white; border: 1px solid #e5989b;">Alterar</a>
                 {{Form::submit('Excluir',['class'=>'btn', 'style'=>'background-color: #b5838d; color: white; border: 1px solid #b5838d;',  'onclick'=>' return confirm("Confirmar Exclusão?")'])}}
-            @endauth
+            @endif
             <a href="{{url('contatos/')}}" class="btn" style="background-color: #FCD5CE; color: white; border: 1px solid #FCD5CE;">Voltar</a>
-            @auth
+            @if ((Auth::check()) && (Auth::user()->isAdmin()))
                 {{Form::close()}}
-            @endauth
+            @endif
         </div>
     </div>
 
